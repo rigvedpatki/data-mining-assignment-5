@@ -1,6 +1,6 @@
 # K-way Graph Partitioning Using JaBeJa
 
-The goal of this assignment is to understand distributed graph partitioning using gossip-based peer-to-peer techniques, such as, JaBeJa described in [F. Rahimian, et al., JA-BE-JA: A Distributed Algorithm for Balanced Graph Partitioning, SASO2013](https://kth.instructure.com/courses/6420/files/1343721/download?verifier=SRj8uA2ClilCgXvGDriqXm70zR4RskRjOkdhoWcQ&wrap=1) Extended version: [F Rahimian et al., [A distributed algorithm for large-scale graph partitioning](http://publicatio.bibl.u-szeged.hu/5295/1/taas15.pdf)Links to an external site., ACM Transactions on Autonomous and Adaptive Systems (TAAS) 10 (2), 12]
+The goal of this assignment is to understand distributed graph partitioning using gossip-based peer-to-peer techniques, such as, JaBeJa described in [F. Rahimian, et al., JA-BE-JA: A Distributed Algorithm for Balanced Graph Partitioning, SASO2013](https://kth.instructure.com/courses/6420/files/1343721/download?verifier=SRj8uA2ClilCgXvGDriqXm70zR4RskRjOkdhoWcQ&wrap=1) Extended version: [F Rahimian et al., [A distributed algorithm for large-scale graph partitioning](http://publicatio.bibl.u-szeged.hu/5295/1/taas15.pdf)., ACM Transactions on Autonomous and Adaptive Systems (TAAS) 10 (2), 12]
 
 This assignment consists of the following two tasks.
 
