@@ -4,3 +4,6 @@
 .gitignore
 /output
 graph.png
+.project
+.classpath
+.settings
