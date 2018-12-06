@@ -56,31 +56,46 @@ public class Jabeja {
   }
 
   /**
-   * Sample and swap algorith at node p
+   * Sample and swap algorithm at node p
    * 
    * @param nodeId
    */
   private void sampleAndSwap(int nodeId) {
     Node partner = null;
-    Node nodep = entireGraph.get(nodeId);
+    Node nodeP = entireGraph.get(nodeId);
 
     if (config.getNodeSelectionPolicy() == NodeSelectionPolicy.HYBRID
         || config.getNodeSelectionPolicy() == NodeSelectionPolicy.LOCAL) {
-      // swap with random neighbors
-      // TODO
+      // swap with a neighbor selected from neighbors random sample
+      partner = findPartner(nodeId, getNeighbors(nodeP));
+
     }
 
     if (config.getNodeSelectionPolicy() == NodeSelectionPolicy.HYBRID
         || config.getNodeSelectionPolicy() == NodeSelectionPolicy.RANDOM) {
       // if local policy fails then randomly sample the entire graph
-      // TODO
+      if (partner == null) {
+        partner = findPartner(nodeId, getSample(nodeId));
+      }
     }
 
-    // swap the colors
-    // TODO
+    // swap the colors (only if a partner has been found)
+    if (partner != null) {
+      int swap = nodeP.getColor();
+      nodeP.setColor(partner.getColor());
+      partner.setColor(swap);
+      this.numberOfSwaps++;
+    }
   }
 
-  // Find the best node as swap partner with given nodeId
+  /**
+   * Get the best partner to exchange with amongst a list of candidates (ids).
+   * 
+   * @param nodePId           The id of the node looking for a partner.
+   * @param neighbouringNodes The ids of the candidate nodes.
+   * @return bestPartner The best partner found; null if none found.
+   */
+
   public Node findPartner(int nodePId, Integer[] neighbouringNodes) {
 
     // get node P from the nodePId
@@ -122,7 +137,7 @@ public class Jabeja {
   }
 
   /**
-   * The the degreee on the node based on color
+   * The degreee of the node based on color
    * 
    * @param node
    * @param colorId
@@ -210,7 +225,6 @@ public class Jabeja {
   private void report() throws IOException {
     int grayLinks = 0;
     int migrations = 0; // number of nodes that have changed the initial color
-    int size = entireGraph.size();
 
     for (int i : entireGraph.keySet()) {
       Node node = entireGraph.get(i);
