@@ -29,10 +29,15 @@ public class CLI {
   private int UNIFORM_RAND_SAMPLE_SIZE = 6;
 
   @Option(name = "-temp", usage = "Simulated annealing temperature.")
-  private float TEMPERATURE = 2;
+  // private float TEMPERATURE = 2;
+  private float TEMPERATURE = 1;
+
+  @Option(name = "-tempmin", usage = "Simulated annealing minimum temperature.")
+  private float TEMPERATUREMIN = (float) 0.0001;
 
   @Option(name = "-delta", usage = "Simulated annealing delta.")
-  private float DELTA = (float) 0.003;
+  // private float DELTA = (float) 0.003;
+  private float DELTA = (float) 0.9;
 
   @Option(name = "-seed", usage = "Seed.")
   private int SEED = 0;
@@ -55,7 +60,15 @@ public class CLI {
   private static String GRAPH = "./graphs/ws-250.graph";
 
   @Option(name = "-outputDir", usage = "Location of the output file(s)")
-  private static String OUTPUT_DIR = "./output";
+  // private static String OUTPUT_DIR = "./output";
+  // private static String OUTPUT_DIR = "./output/task-2";
+  private static String OUTPUT_DIR = "./output/optional";
+
+  @Option(name = "-cooling", usage = "Cooling func to use: 1=T*delta; 2=T*delta^(round/100); 3=T/(1+delta*round)")
+  private static Integer COOLING = 2;
+
+  @Option(name = "-ap", usage = "Acceptance probability func to use: 1=exp((new-old)/T); 2=1/(1+exp((old-new)/T))")
+  private static Integer AP = 2;
 
   public Config parseArgs(String[] args) throws FileNotFoundException {
     CmdLineParser parser = new CmdLineParser(this);
@@ -67,8 +80,7 @@ public class CLI {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.RANDOM;
       } else if (GRAPH_INIT_COLOR_SELECTION_POLICY.compareToIgnoreCase(GraphInitColorPolicy.BATCH.toString()) == 0) {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.BATCH;
-      } else if (GRAPH_INIT_COLOR_SELECTION_POLICY
-          .compareToIgnoreCase(GraphInitColorPolicy.ROUND_ROBIN.toString()) == 0) {
+      } else if (GRAPH_INIT_COLOR_SELECTION_POLICY.compareToIgnoreCase(GraphInitColorPolicy.ROUND_ROBIN.toString()) == 0) {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.ROUND_ROBIN;
       } else {
         throw new IllegalArgumentException("Initial color selection policy is not supported");
@@ -100,9 +112,21 @@ public class CLI {
       System.exit(0);
     }
 
-    return new Config().setRandNeighborsSampleSize(randNeighborsSampleSize).setDelta(DELTA)
-        .setNumPartitions(NUM_PARTITIONS).setUniformRandSampleSize(UNIFORM_RAND_SAMPLE_SIZE).setRounds(ROUNDS)
-        .setSeed(SEED).setTemperature(TEMPERATURE).setGraphFilePath(GRAPH).setNodeSelectionPolicy(nodeSelectionPolicy)
-        .setGraphInitialColorPolicy(graphInitColorSelectionPolicy).setOutputDir(OUTPUT_DIR).setAlpha(ALPHA);
+    return new Config()
+        .setRandNeighborsSampleSize(randNeighborsSampleSize)
+        .setDelta(DELTA)
+        .setNumPartitions(NUM_PARTITIONS)
+        .setUniformRandSampleSize(UNIFORM_RAND_SAMPLE_SIZE)
+        .setRounds(ROUNDS)
+        .setSeed(SEED)
+        .setTemperature(TEMPERATURE)
+        .setTemperatureMin(TEMPERATUREMIN)
+        .setGraphFilePath(GRAPH)
+        .setNodeSelectionPolicy(nodeSelectionPolicy)
+        .setGraphInitialColorPolicy(graphInitColorSelectionPolicy)
+        .setOutputDir(OUTPUT_DIR)
+        .setAlpha(ALPHA)
+        .setCoolingMode(COOLING)
+        .setAcceptanceProbabilityMode(AP);
   }
 }

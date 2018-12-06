@@ -18,6 +18,7 @@ public class Jabeja {
   private int numberOfSwaps;
   private int round;
   private float T;
+  private float Tmin;
   private boolean resultFileCreated = false;
 
   // -------------------------------------------------------------------
@@ -28,6 +29,7 @@ public class Jabeja {
     this.numberOfSwaps = 0;
     this.config = config;
     this.T = config.getTemperature();
+    this.Tmin = config.getTemperatureMin();
   }
 
   // -------------------------------------------------------------------
@@ -39,20 +41,33 @@ public class Jabeja {
 
       // one cycle for all nodes have completed.
       // reduce the temperature
-      saCoolDown();
+      saCoolDown(config.getCoolingMode());
       report();
     }
   }
 
   /**
-   * Simulated analealing cooling function
+   * Simulated anneal cooling function
    */
-  private void saCoolDown() {
-    // TODO for second task
-    if (T > 1)
-      T -= config.getDelta();
-    if (T < 1)
-      T = 1;
+  private void saCoolDown(int mode) {
+
+    switch (mode) {
+    case 1:
+      T *= config.getDelta();
+      break;
+
+    case 2:
+      T *= Math.pow(config.getDelta(), round / 100);
+      break;
+
+    case 3:
+      T = T / (1 + config.getDelta() * round);
+      break;
+
+    default:
+      throw new IllegalArgumentException("Cooldown mode not valid.");
+    }
+
   }
 
   /**
@@ -130,11 +145,40 @@ public class Jabeja {
       double new_ = Math.pow(degreePColorQ, alpha) + Math.pow(degreeQColorP, alpha);
 
       // checking which is better new or old
-      if ((new_ * T > old_) && (new_ > highestBenefit)) {
-        // updating the values for best partner and highestBenefit
-        bestPartner = nodeQ;
-        highestBenefit = new_;
+      // updating the values for best partner and highestBenefit
+      /*
+       * if ((new_ * T > old_) && (new_ > highestBenefit)) { bestPartner = nodeQ;
+       * highestBenefit = new_; }
+       */
+
+      // Instead of cost use benefit as the difference between
+      // new and old state
+      double newBenefit = new_ - old_;
+
+      // Apply acceptance probability to simulated annealing
+      // based on benefit instead of cost (change sign: new - old)
+      double ap = 0;
+      if (newBenefit > highestBenefit) {
+        ap = 1;
+      } else {
+        switch (config.getAcceptanceProbabilityMode()) {
+        case 1:
+          ap = Math.pow(Math.E, (newBenefit - highestBenefit) / T);
+          break;
+
+        case 2:
+          ap = 1 / (1 + Math.pow(Math.E, (highestBenefit - newBenefit) / T));
+          break;
+
+        default:
+          throw new IllegalArgumentException("The selected mode for ap is not valid.");
+        }
       }
+      if ((ap > RandNoGenerator.random()) && (T > Tmin || newBenefit > highestBenefit)) {
+        bestPartner = nodeQ;
+        highestBenefit = newBenefit;
+      }
+
     }
     return bestPartner;
   }
@@ -251,8 +295,7 @@ public class Jabeja {
 
     int edgeCut = grayLinks / 2;
 
-    logger.info("round: " + round + ", edge cut:" + edgeCut + ", swaps: " + numberOfSwaps + ", migrations: "
-        + migrations + ", T: " + T);
+    logger.info("round: " + round + ", edge cut:" + edgeCut + ", swaps: " + numberOfSwaps + ", migrations: "+ migrations + ", T: " + T);
 
     saveToFile(edgeCut, migrations);
   }
@@ -264,10 +307,7 @@ public class Jabeja {
     // output file name
     File inputFile = new File(config.getGraphFilePath());
     outputFilePath = config.getOutputDir() + File.separator + inputFile.getName() + "_" + "NS" + "_"
-        + config.getNodeSelectionPolicy() + "_" + "GICP" + "_" + config.getGraphInitialColorPolicy() + "_" + "T" + "_"
-        + config.getTemperature() + "_" + "D" + "_" + config.getDelta() + "_" + "RNSS" + "_"
-        + config.getRandomNeighborSampleSize() + "_" + "URSS" + "_" + config.getUniformRandomSampleSize() + "_" + "A"
-        + "_" + config.getAlpha() + "_" + "R" + "_" + config.getRounds() + ".txt";
+        + config.getNodeSelectionPolicy() + "_" + "GICP" + "_" + config.getGraphInitialColorPolicy() + "_" + "T" + "_"+ config.getTemperature() + "_" + "D" + "_" + config.getDelta() + "_" + "RNSS" + "_"+ config.getRandomNeighborSampleSize() + "_" + "URSS" + "_" + config.getUniformRandomSampleSize() + "_" + "A" + "_" + config.getAlpha() + "_" + "R" + "_" + config.getRounds() + "_" + "COOL" + "_" + config.getCoolingMode()+ "_" + "AP" + "_" + config.getAcceptanceProbabilityMode() + ".txt";
 
     if (!resultFileCreated) {
       File outputDir = new File(config.getOutputDir());
@@ -278,14 +318,20 @@ public class Jabeja {
       }
       // create folder and result file with header
       String header = "# Migration is number of nodes that have changed color.";
-      header += "\n\nRound" + delimiter + "Edge-Cut" + delimiter + "Swaps" + delimiter + "Migrations" + delimiter + "T"
-          + delimiter + "Skipped" + "\n";
+      header += "\n\nRound" + delimiter + 
+                "Edge-Cut" + delimiter + 
+                "Swaps" + delimiter + 
+                "Migrations" + delimiter + 
+                "T" + delimiter + 
+                "Skipped" + "\n";
       FileIO.write(header, outputFilePath);
       resultFileCreated = true;
     }
 
-    FileIO.append(
-        round + delimiter + edgeCuts + delimiter + numberOfSwaps + delimiter + migrations + delimiter + T + "\n",
-        outputFilePath);
+    FileIO.append(round + delimiter +
+                  edgeCuts + delimiter + 
+                  numberOfSwaps + delimiter + 
+                  migrations + delimiter + 
+                  T + "\n", outputFilePath);
   }
 }

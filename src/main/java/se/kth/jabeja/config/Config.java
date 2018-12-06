@@ -5,6 +5,7 @@ public class Config {
   private Integer rounds;
   private Integer randomNeighborsSampleSize;
   private Float temperature;
+  private Float temperatureMin;
   private Float delta;
   private Integer seed;
   private Integer uniformRandomSampleSize;
@@ -13,6 +14,8 @@ public class Config {
   private GraphInitColorPolicy initColorPolicy;
   private NodeSelectionPolicy nodeSelectionPolicy;
   private Float alpha;
+  private Integer coolingMode;
+  private Integer accProbMode;
 
   public Config setAlpha(Float alpha) {
     this.alpha = alpha;
@@ -160,6 +163,42 @@ public class Config {
 
   public Config createJabejaConfig() {
     return new Config();
+  }
+
+  public Config setTemperatureMin(Float temperatureMin) {
+    this.temperatureMin = temperatureMin;
+    return this;
+  }
+
+  public Float getTemperatureMin() {
+    if (temperatureMin == null) {
+      throw new NullPointerException("Temperature min is not set");
+    }
+    return temperatureMin;
+  }
+
+  public Config setCoolingMode(Integer mode) {
+    this.coolingMode = mode;
+    return this;
+  }
+
+  public Config setAcceptanceProbabilityMode(Integer ap) {
+    this.accProbMode = ap;
+    return this;
+  }
+
+  public int getCoolingMode() {
+    if (coolingMode == null) {
+      throw new NullPointerException("Cooling mode is not set");
+    }
+    return coolingMode;
+  }
+
+  public int getAcceptanceProbabilityMode() {
+    if (accProbMode == null) {
+      throw new NullPointerException("Aceptance probability mode is not set");
+    }
+    return accProbMode;
   }
 
 }

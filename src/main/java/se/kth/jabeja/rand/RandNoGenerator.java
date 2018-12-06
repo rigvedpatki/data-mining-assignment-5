@@ -9,9 +9,6 @@ public class RandNoGenerator {
     private static long seed = 0;
     private static Random rand = null;
 
-    private RandNoGenerator() {
-    };
-
     public static void setSeed(long seed) {
         if (rand == null) {
             rand = new Random(seed);
@@ -22,6 +19,10 @@ public class RandNoGenerator {
 
     public static int nextInt(int number) {
         return rand.nextInt(number);
+    }
+
+    public static double random() {
+        return rand.nextDouble();
     }
 
 }
