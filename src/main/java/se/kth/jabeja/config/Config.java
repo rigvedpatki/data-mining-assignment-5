@@ -5,6 +5,7 @@ public class Config {
   private Integer rounds;
   private Integer randomNeighborsSampleSize;
   private Float temperature;
+  private Float temperatureMin;
   private Float delta;
   private Integer seed;
   private Integer uniformRandomSampleSize;
@@ -160,6 +161,18 @@ public class Config {
 
   public Config createJabejaConfig() {
     return new Config();
+  }
+
+  public Config setTemperatureMin(Float temperatureMin) {
+    this.temperatureMin = temperatureMin;
+    return this;
+  }
+
+  public Float getTemperatureMin() {
+    if (temperatureMin == null) {
+      throw new NullPointerException("Temperature min is not set");
+    }
+    return temperatureMin;
   }
 
 }

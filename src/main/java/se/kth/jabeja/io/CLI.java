@@ -29,10 +29,15 @@ public class CLI {
   private int UNIFORM_RAND_SAMPLE_SIZE = 6;
 
   @Option(name = "-temp", usage = "Simulated annealing temperature.")
-  private float TEMPERATURE = 2;
+  // private float TEMPERATURE = 2;
+  private float TEMPERATURE = 1;
+
+  @Option(name = "-tempmin", usage = "Simulated annealing minimum temperature.")
+  private float TEMPERATUREMIN = (float) 0.0001;
 
   @Option(name = "-delta", usage = "Simulated annealing delta.")
-  private float DELTA = (float) 0.003;
+  // private float DELTA = (float) 0.003;
+  private float DELTA = (float) 0.9;
 
   @Option(name = "-seed", usage = "Seed.")
   private int SEED = 0;
@@ -55,7 +60,8 @@ public class CLI {
   private static String GRAPH = "./graphs/ws-250.graph";
 
   @Option(name = "-outputDir", usage = "Location of the output file(s)")
-  private static String OUTPUT_DIR = "./output";
+  // private static String OUTPUT_DIR = "./output";
+  private static String OUTPUT_DIR = "./output/task-2";
 
   public Config parseArgs(String[] args) throws FileNotFoundException {
     CmdLineParser parser = new CmdLineParser(this);
@@ -102,7 +108,8 @@ public class CLI {
 
     return new Config().setRandNeighborsSampleSize(randNeighborsSampleSize).setDelta(DELTA)
         .setNumPartitions(NUM_PARTITIONS).setUniformRandSampleSize(UNIFORM_RAND_SAMPLE_SIZE).setRounds(ROUNDS)
-        .setSeed(SEED).setTemperature(TEMPERATURE).setGraphFilePath(GRAPH).setNodeSelectionPolicy(nodeSelectionPolicy)
-        .setGraphInitialColorPolicy(graphInitColorSelectionPolicy).setOutputDir(OUTPUT_DIR).setAlpha(ALPHA);
+        .setSeed(SEED).setTemperature(TEMPERATURE).setTemperatureMin(TEMPERATUREMIN).setGraphFilePath(GRAPH)
+        .setNodeSelectionPolicy(nodeSelectionPolicy).setGraphInitialColorPolicy(graphInitColorSelectionPolicy)
+        .setOutputDir(OUTPUT_DIR).setAlpha(ALPHA);
   }
 }
