@@ -13,7 +13,7 @@ You can run the program using the run.sh ​script. Run `./run.sh` -help to see 
 ```
 ./compile.sh
 ./run -graph ./graphs/3elt.graph
-./plot .sh output/result
+./plot.sh output/result
 ```
 
 ![graph](./graph.jpg)
