@@ -24,22 +24,27 @@ public class Node {
 		for (int id : neighbours)
 			this.neighbours.add(id);
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
+
 	public int getColor() {
 		return this.color;
 	}
+
 	public int getDegree() {
 		return this.neighbours.size();
 	}
+
 	public int getInitColor() {
 		return this.initColor;
 	}
+
 	public ArrayList<Integer> getNeighbours() {
 		return this.neighbours;
 	}
+
 	@Override
 	public String toString() {
 		return "id: " + id + ", color: " + color + ", neighbours: " + neighbours + "\n";

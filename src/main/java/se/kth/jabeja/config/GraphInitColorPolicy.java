@@ -5,8 +5,8 @@ package se.kth.jabeja.config;
  */
 
 /**
- * When the graph is initialized the nodes are assigned some color
- * according to the following config
+ * When the graph is initialized the nodes are assigned some color according to
+ * the following config
  */
 public enum GraphInitColorPolicy {
     /**
@@ -18,9 +18,9 @@ public enum GraphInitColorPolicy {
      */
     ROUND_ROBIN("ROUND_ROBIN"),
     /**
-     * Assign color in batch. If N nodes and K partitions
-     * then first N/K nodes are assigned the same color and
-     * then next N/K nodes are assigned the other color, so on
+     * Assign color in batch. If N nodes and K partitions then first N/K nodes are
+     * assigned the same color and then next N/K nodes are assigned the other color,
+     * so on
      */
     BATCH("BATCH");
 

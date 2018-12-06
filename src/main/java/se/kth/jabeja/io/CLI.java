@@ -67,7 +67,8 @@ public class CLI {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.RANDOM;
       } else if (GRAPH_INIT_COLOR_SELECTION_POLICY.compareToIgnoreCase(GraphInitColorPolicy.BATCH.toString()) == 0) {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.BATCH;
-      } else if (GRAPH_INIT_COLOR_SELECTION_POLICY.compareToIgnoreCase(GraphInitColorPolicy.ROUND_ROBIN.toString()) == 0) {
+      } else if (GRAPH_INIT_COLOR_SELECTION_POLICY
+          .compareToIgnoreCase(GraphInitColorPolicy.ROUND_ROBIN.toString()) == 0) {
         graphInitColorSelectionPolicy = GraphInitColorPolicy.ROUND_ROBIN;
       } else {
         throw new IllegalArgumentException("Initial color selection policy is not supported");
@@ -99,17 +100,9 @@ public class CLI {
       System.exit(0);
     }
 
-    return new Config().setRandNeighborsSampleSize(randNeighborsSampleSize)
-            .setDelta(DELTA)
-            .setNumPartitions(NUM_PARTITIONS)
-            .setUniformRandSampleSize(UNIFORM_RAND_SAMPLE_SIZE)
-            .setRounds(ROUNDS)
-            .setSeed(SEED)
-            .setTemperature(TEMPERATURE)
-            .setGraphFilePath(GRAPH)
-            .setNodeSelectionPolicy(nodeSelectionPolicy)
-            .setGraphInitialColorPolicy(graphInitColorSelectionPolicy)
-            .setOutputDir(OUTPUT_DIR)
-            .setAlpha(ALPHA);
+    return new Config().setRandNeighborsSampleSize(randNeighborsSampleSize).setDelta(DELTA)
+        .setNumPartitions(NUM_PARTITIONS).setUniformRandSampleSize(UNIFORM_RAND_SAMPLE_SIZE).setRounds(ROUNDS)
+        .setSeed(SEED).setTemperature(TEMPERATURE).setGraphFilePath(GRAPH).setNodeSelectionPolicy(nodeSelectionPolicy)
+        .setGraphInitialColorPolicy(graphInitColorSelectionPolicy).setOutputDir(OUTPUT_DIR).setAlpha(ALPHA);
   }
 }

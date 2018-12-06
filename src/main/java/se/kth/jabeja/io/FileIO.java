@@ -26,7 +26,7 @@ import java.io.*;
 
 public class FileIO {
 
-//----------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------
 
     /**
      * Writes a string into a file.
@@ -43,14 +43,15 @@ public class FileIO {
         output.close();
     }
 
-//----------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------
 
     /**
-     * Appends a string at the end of an existing file. If the file does not exist then it is created.
+     * Appends a string at the end of an existing file. If the file does not exist
+     * then it is created.
      *
      * @param str      Specifies the string that will be written in the file.
      * @param fileName Specifies the name of storing file.
-     * @throws IOException Thrown if it can not open  the file.
+     * @throws IOException Thrown if it can not open the file.
      */
     public static void append(String str, String fileName) throws IOException {
         Writer output = null;
@@ -60,7 +61,7 @@ public class FileIO {
         output.close();
     }
 
-//----------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------
 
     /**
      * Reads the content of a file and returns it as a string.

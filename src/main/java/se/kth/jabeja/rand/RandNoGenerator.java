@@ -9,19 +9,19 @@ public class RandNoGenerator {
     private static long seed = 0;
     private static Random rand = null;
 
-    private RandNoGenerator(){};
+    private RandNoGenerator() {
+    };
 
-    public static void setSeed(long seed){
-        if(rand == null) {
+    public static void setSeed(long seed) {
+        if (rand == null) {
             rand = new Random(seed);
-        }else{
+        } else {
             throw new UnsupportedOperationException("The seed can be set only once");
         }
     }
 
-    public static int nextInt(int number){
+    public static int nextInt(int number) {
         return rand.nextInt(number);
     }
-
 
 }
