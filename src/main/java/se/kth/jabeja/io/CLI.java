@@ -29,15 +29,15 @@ public class CLI {
   private int UNIFORM_RAND_SAMPLE_SIZE = 6;
 
   @Option(name = "-temp", usage = "Simulated annealing temperature.")
-  // private float TEMPERATURE = 2;
-  private float TEMPERATURE = 1;
+  private float TEMPERATURE = 2;
+  // private float TEMPERATURE = 1;
 
   @Option(name = "-tempmin", usage = "Simulated annealing minimum temperature.")
   private float TEMPERATUREMIN = (float) 0.0001;
 
   @Option(name = "-delta", usage = "Simulated annealing delta.")
-  // private float DELTA = (float) 0.003;
-  private float DELTA = (float) 0.9;
+  private float DELTA = (float) 0.003;
+  // private float DELTA = (float) 0.9;
 
   @Option(name = "-seed", usage = "Seed.")
   private int SEED = 0;
